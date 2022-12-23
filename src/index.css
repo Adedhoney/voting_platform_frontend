@@ -1,15 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @layer base {
   :root {
+    --color-light-bg-primary: theme(colors.white);
+    --color-light-bg-secondary: #f0f0f0;
+    --color-light-main-primary: #93278f;
+    --color-light-main-secondary: #e1c6ff;
+    --color-light-main-tetiary: #460d86;
+    --color-light-separator: #f0f0f0;
+    --color-light-logo: #fefefe;
+    --color-light-text-primary: #333333;
+    --color-light-text-secondary: #460d86;
+    --color-light-text-muted: theme(colors.gray.500);
+
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Lora', serif;
   }
 }

@@ -1,0 +1,53 @@
+{
+    "loginData": {
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "query": {
+            "email": "bla bla bla",
+            "password": "************"
+        }
+    },
+    "Response -- loginData": {
+        "accessToken": "Your_jwToken"
+    },
+
+    "getUserData": {
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": "Basic Your_jwToken"
+        }
+    },
+    "Response -- getUserData": {
+        "username": "their names",
+        "id": "thier ids",
+        "matricNO": "and every other information we have"
+    },
+
+    "getElectionData": {
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": "Basic Your_jwToken"
+        }
+    },
+    "Response -- getElectionData": [
+        { "candidateInfo": "list of candidates including their positions " }
+    ],
+
+    "votingData": {
+        "headers": {
+            "Content-Type": "application/json",
+            "authorization": "Basic Your_jwToken"
+        },
+        "body": [
+            {
+                "candidateId": "candidate's id",
+                "positionId": "candidate's position id for selected candidate."
+            },
+            {
+                "candidateId": "candidate's id for second position.",
+                "positionId": "candidate's position id for selected candidate."
+            }
+        ]
+    }
+}
