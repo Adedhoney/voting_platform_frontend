@@ -1,17 +1,17 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 export const ProtectedRoute = ({
-	redirectPath = "/",
+	redirectPath = "/login",
 	children,
 }: {
 	redirectPath?: string;
 	children?: React.ReactElement;
-  }) => {
-  const loggedin = true;
+	}) => {
+	const loggedIn = localStorage.getItem("token");
 
-  if (!loggedin) {
-    // alert("you are not logged in, you need to log in")
+	if (!loggedIn) {
 		return <Navigate to={redirectPath} replace />;
 	}
+
 	return children ? children : <Outlet />;
 };

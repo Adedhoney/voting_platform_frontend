@@ -23,4 +23,8 @@
     -webkit-text-size-adjust: 100%;
     font-family: 'Lora', serif;
   }
+
+  *, html {
+    box-sizing: border-box;
+  }
 }

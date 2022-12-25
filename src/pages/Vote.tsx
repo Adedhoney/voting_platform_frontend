@@ -3,42 +3,13 @@ import Candidate from "../components/Candidate";
 import { useDataContext } from "../context/DataContext";
 import axios from "axios";
 import { Header } from "../components/Header";
+import { useNavigate } from "react-router-dom";
+import { instance } from "../utils/axios_instance";
 
 export const Vote = () => {
-	const {
-		posts,
-		position,
-		changePositions,
-		candidates,
-		vote,
-		setVote,
-	} = useDataContext();
-
-	const submitVotes = async () => {
-		const votesFormat = Object.entries(vote).map(([key, val]) => {
-			return { position_id: key, candidate_id: val };
-		});
-		console.log(votesFormat);
-		try {
-			const config = {
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Basic ${localStorage.getItem(
-						"token"
-					)}`,
-					body: votesFormat,
-				},
-			};
-
-			const res = await axios.post(
-				"http://192.168.0.101:4000/user/login/",
-				config
-			);
-			console.log(res);
-		} catch (error) {
-			console.log(error);
-		}
-	};
+	const navigate = useNavigate()
+	const { posts, position, changePositions, candidates, vote, setVote } =
+		useDataContext();
 
 	const onVoteClick = (candidate_id: string) => {
 		const currentPost = posts[position].position_id;
@@ -52,8 +23,9 @@ export const Vote = () => {
 			<Header />
 			<li className='w-full h-16 px-4 flex items-center justify-evenly'>
 				<button
-					className='text-light-text-muted inline-flex items-center px-2.5 py-1 text-sm font-medium text-center bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200'
+					className={`text-light-text-muted inline-flex items-center px-2.5 py-1 text-sm font-medium text-center bg-white border border-gray-300 rounded-lg  ${position <= 0 ? "disabled" : "hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200"}`}
 					onClick={() => changePositions("minus")}
+					disabled={position <= 0}
 				>
 					Prev
 				</button>
@@ -62,12 +34,18 @@ export const Vote = () => {
 				</p>
 				<button
 					className='text-light-text-muted inline-flex items-center px-2.5 py-1 text-sm font-medium text-center bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200'
-					onClick={() => changePositions("add")}
+					onClick={() => {
+						if (position >= posts.length - 1) {
+							navigate('/confirmation');
+							return
+						}
+						changePositions("add")
+					}}
 				>
 					Next
 				</button>
 			</li>
-			
+
 			<div className='my-8 mx-4 flex flex-wrap items-center justify-center gap-4'>
 				{candidates.length ? (
 					candidates

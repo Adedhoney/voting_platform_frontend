@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import { instance } from "../utils/axios_instance";
 
 export const Login = () => {
 	const navigate = useNavigate();
@@ -13,38 +14,28 @@ export const Login = () => {
 	});
 
 	const submit = async () => {
-		console.log(authInfo);
 		if (!authInfo.matricNO || !authInfo.password) {
 			// alert
 			return;
 		}
 
 		try {
-			const config = {
-				headers: {
-					"Content-Type": "application/json",
-				},
-				query: authInfo,
-				// proxy: {
-				// 	protocol: "http",
-				// 	host: "192.168.0.101",
-				// 	port: 4000,
-				// },
-			};
-
-			const { data } = await axios.get(
-				"http://192.168.0.101:4000/user/login/",
+			const { data } = await instance.get(
+				"/login/",
 				{ params: authInfo }
 			);
-			console.log(data);
 			if (data.accessToken) {
+				console.log(data.accessToken)
 				localStorage.setItem("token", data.accessToken);
 				navigate("/");
 				return;
 			}
 			throw new Error("Your information is incorrect");
 		} catch (error) {
-			console.log(error);
+			const err = error as AxiosError;
+			alert(err?.response?.data?.message);
+			console.log(err)
+			console.log(err?.response?.data?.message);
 		}
 	};
 

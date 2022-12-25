@@ -1,7 +1,7 @@
 import React from "react";
 import { useDataContext } from "../context/DataContext";
 
-export function Header({ }) {
+export function Header({}) {
 	const {
 		user
 	} = useDataContext();
