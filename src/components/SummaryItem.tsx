@@ -1,6 +1,6 @@
 import React from "react";
 
-export const SummaryItem = ({
+export const  SummaryItem = ({
 	candidate_name,
 	candidate_department,
 	candidate_level,
@@ -15,6 +15,13 @@ export const SummaryItem = ({
 }) => {
 	return (
 		<div className='flex flex-col items-center justify-between gap-4 cursor-pointer p-4 sm:flex-row sm:py-4 sm:px-8'>
+			{/* <!--Button content --> */}
+			<div className='mx-auto sm:ml-auto sm:mr-0 md:order-4'>
+				<div className='whitespace-nowrap rounded font-bold leading-6 tracking-tight text-light-text-primary text-center'>
+					{running_position_name}
+				</div>
+			</div>
+			{/* <!--Close Button content --> */}
 			<div className='user flex items-center text-center flex-col sm:flex-row sm:text-left'>
 				<div className='avatar-content mb-2.5 sm:mb-0 sm:mr-2.5'>
 					<img
@@ -47,15 +54,6 @@ export const SummaryItem = ({
 					</div>
 				</div>
 			</div>
-			{/* <!--Button content --> */}
-            <div className='mx-auto sm:ml-auto sm:mr-0'>
-				<div
-					className='whitespace-nowrap rounded font-bold leading-6 tracking-tight text-light-text-primary text-center'
-				>
-                    {running_position_name}
-				</div>
-			</div>
-			{/* <!--Close Button content --> */}
 		</div>
 	);
 };

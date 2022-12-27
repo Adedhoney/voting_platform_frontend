@@ -2,6 +2,8 @@ import { AxiosError } from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { instance } from "../utils/axios_instance";
+import { ErrorAlert } from "../utils/alerts";
+import { LoadingScreen } from "../components/LoadingScreen";
 
 type User = {
 	createdAt: string;
@@ -67,36 +69,52 @@ export const DataProvider = ({ children }: any) => {
 			const config = {
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Basic ${localStorage.getItem("token")}`,
+					Authorization: `Basic ${token}`,
 				},
 			};
 
 			const { data: userData } = await instance.get(
-				"/getUserData/", config
+				"/getUserData/",
+				config
 			);
 
 			const { data: voteData } = await instance.get(
-				"/getElectionData/", config
+				"/getElectionData/",
+				config
 			);
 			if (userData) {
 				setUser(userData);
 			}
 			if (voteData) {
-				setCandidates(voteData.candidates);
 				setPosts(voteData.positions);
+				setCandidates(voteData.candidates);
 			}
 		} catch (error) {
 			const err = error as AxiosError;
+			if (
+				err.code === "ERR_NETWORK" &&
+				err.request.timeout === 0
+			) {
+				ErrorAlert(err).fire({
+					titleText: "A network error has occurred",
+					text: "Please check your network and try reloading the page again.",
+				});
+				localStorage.removeItem("token");
+				navigate("/login");
+				return;
+			}
 			if (
 				err.response?.status === 401 ||
 				err.response?.status === 402 ||
 				err.response?.status === 403
 			) {
+				ErrorAlert(err).fire();
 				localStorage.removeItem("token");
 				navigate("/login");
+				return;
+			} else {
+				ErrorAlert(err).fire();
 			}
-			alert(err.response?.data?.message);
-			console.log(err.response?.data?.message);
 		}
 	};
 
@@ -143,7 +161,7 @@ export const DataProvider = ({ children }: any) => {
 				changePositions,
 			}}
 		>
-			{user ? children : <div>Loading...</div>}
+			{user?.user_id ? children : <LoadingScreen />}
 		</DataContext.Provider>
 	);
 };

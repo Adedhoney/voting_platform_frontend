@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { Header } from "../components/Header";
-import { Candidate, useDataContext } from "../context/DataContext";
+import { useDataContext } from "../context/DataContext";
 import { SummaryItem } from "../components/SummaryItem";
 import { instance } from "../utils/axios_instance";
+import { AxiosError } from "axios";
+import { ErrorAlert, SuccessAlert, WarningAlert } from "../utils/alerts";
 
 export const Confirmation = () => {
 	const navigate = useNavigate();
@@ -18,13 +20,34 @@ export const Confirmation = () => {
 		};
 	});
 
-	const submitVotes = async () => {
-		const votesFormat = Object.entries(vote).map(([key, val]) => {
-			return { positionId: key, candidateId: val };
+	const confirmVote = async () => {
+		const result = await WarningAlert.fire({
+			titleText: "Are you sure you want to submit your vote?",
+			text: "You cannot change it later!",
+			confirmButtonText: "Yes, submit my vote",
+			customClass: {
+				title: "text-light-text-primary",
+			},
 		});
 
-		const postBody = { votes: votesFormat };
+		if (result.isConfirmed) {
+			const votesFormat = Object.entries(vote).map(
+				([key, val]) => {
+					return {
+						positionId: key,
+						candidateId: val,
+					};
+				}
+			);
 
+			const postBody = { votes: votesFormat };
+			submitVotes(postBody);
+		}
+	};
+
+	const submitVotes = async (postBody: {
+		votes: { positionId: string; candidateId: string }[];
+	}) => {
 		try {
 			const config = {
 				headers: {
@@ -33,26 +56,26 @@ export const Confirmation = () => {
 					)}`,
 				},
 			};
-			console.log(votesFormat);
 			const res = await instance.post(
 				"/submitVote/",
 				postBody,
 				config
 			);
-			alert(res.data.message);
-			console.log(res);
+			
+			SuccessAlert.fire("You have voted successfully")
+			// navigate('/')
 		} catch (error) {
-			alert(error.response.data.message)
-			console.log(error.response.data);
+			const err = error as AxiosError;
+			ErrorAlert(err).fire()
 		}
 	};
 
 	return (
-		<div className='h-screen w-screen overflow-y-auto'>
+		<div className='h-screen w-full overflow-y-auto pb-10 bg-neutral-50'>
 			<Header />
-			<div className='relative w-full h-16 px-4 flex items-center justify-center border-b mb-8'>
+			<div className='relative w-full md:h-16 px-4 flex flex-col md:flex-row items-center justify-center md:border-b mb-8'>
 				<button
-					className='absolute left-4 py-1 px-2 border rounded-md'
+					className='md:absolute mr-auto mb-4 left-4 py-1 px-2 border rounded-md'
 					onClick={() => {
 						navigate(-1);
 					}}
@@ -77,7 +100,6 @@ export const Confirmation = () => {
 							position,
 							selectedCandidate,
 						}) => {
-							console.log(position);
 							const {
 								candidate_name,
 								candidate_department,
@@ -109,14 +131,16 @@ export const Confirmation = () => {
 				)}
 				{/* End */}
 			</div>
-			<div className='mt-8 flex justify-center'>
-				<button
-					className='py-1.5 px-2.5 border rounded-md transform focus:scale-95 hover:bg-gray-300 hover:text-bold hover:outline-2 shadow-md'
-					onClick={submitVotes}
-				>
-					Sumit vote
-				</button>
-			</div>
+			{summary.length > 0 && (
+				<div className='mt-8 flex justify-center'>
+					<button
+						className='py-1.5 px-4 border bg-white shadow-sm rounded-md text-lg transform focus:scale-95 hover:bg-neutral-200 hover:text-light-text-primary font-bold hover:outline-2 tracking-wider'
+						onClick={confirmVote}
+					>
+						Cast vote
+					</button>
+				</div>
+			)}
 		</div>
 	);
 };
