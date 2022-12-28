@@ -65,7 +65,7 @@ const Candidate = ({
 				<span className='text-sm text-light-text-muted'>
 					{candidate_level + " "}level
 				</span>
-				<div className='mt-4 grid grid-col'>
+				<div className={`${isSelected ? 'invisible' : 'visible'} mt-4 grid grid-col transform duration-75`}>
 					<button
 						className={`inline-flex items-center px-4 py-2 text-sm font-medium text-center text-light-text-primary bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 tracking-widest`}
 						onClick={() => {
@@ -75,7 +75,7 @@ const Candidate = ({
 							);
 						}}
 					>
-						{isSelected ? "Unvote" : "Vote"}
+						Vote
 					</button>
 				</div>
 			</div>

@@ -8,7 +8,8 @@ import { ErrorAlert, SuccessAlert, WarningAlert } from "../utils/alerts";
 
 export const Confirmation = () => {
 	const navigate = useNavigate();
-	const { vote, posts, candidates } = useDataContext();
+	const { vote, posts, candidates, setVote, setPosition } =
+		useDataContext();
 	const summary = Object.entries(vote).map(([key, value]) => {
 		const position = posts.filter((p) => p.position_id === key);
 		const candidate_selected = candidates.filter(
@@ -19,6 +20,27 @@ export const Confirmation = () => {
 			selectedCandidate: candidate_selected[0],
 		};
 	});
+
+	const reset = () => {
+		setPosition(0);
+		setVote({});
+		navigate("/");
+	};
+
+	const confirmReset = async () => {
+		const response = await WarningAlert.fire({
+			titleText: "Are you sure you want to reset your vote?",
+			text: "All of your votes will be cleared, you can reselect them again.",
+			confirmButtonText: "Yes, reset my vote",
+			customClass: {
+				title: "text-light-text-primary",
+			},
+		});
+
+		if (response.isConfirmed) {
+			reset();
+		}
+	};
 
 	const confirmVote = async () => {
 		const result = await WarningAlert.fire({
@@ -61,12 +83,12 @@ export const Confirmation = () => {
 				postBody,
 				config
 			);
-			
-			SuccessAlert.fire("You have voted successfully")
+
+			SuccessAlert.fire("You have voted successfully");
 			// navigate('/')
 		} catch (error) {
 			const err = error as AxiosError;
-			ErrorAlert(err).fire()
+			ErrorAlert(err).fire();
 		}
 	};
 
@@ -132,9 +154,15 @@ export const Confirmation = () => {
 				{/* End */}
 			</div>
 			{summary.length > 0 && (
-				<div className='mt-8 flex justify-center'>
+				<div className='mt-8 flex justify-center gap-2'>
 					<button
 						className='py-1.5 px-4 border bg-white shadow-sm rounded-md text-lg transform focus:scale-95 hover:bg-neutral-200 hover:text-light-text-primary font-bold hover:outline-2 tracking-wider'
+						onClick={confirmReset}
+					>
+						Reset
+					</button>
+					<button
+						className='py-1.5 px-4 border bg-red-900 text-white shadow-sm rounded-md text-lg transform focus:scale-95 hover:bg-neutral-200 hover:text-light-text-primary font-bold hover:outline-2 tracking-wider'
 						onClick={confirmVote}
 					>
 						Cast vote
