@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ErrorAlert } from "../utils/alerts";
 import { instance } from "../utils/axios_instance";
 
 export const Login = () => {
@@ -25,7 +26,6 @@ export const Login = () => {
 				{ params: authInfo }
 			);
 			if (data.accessToken) {
-				console.log(data.accessToken)
 				localStorage.setItem("token", data.accessToken);
 				navigate("/");
 				return;
@@ -33,17 +33,23 @@ export const Login = () => {
 			throw new Error("Your information is incorrect");
 		} catch (error) {
 			const err = error as AxiosError;
-			alert(err?.response?.data?.message);
-			console.log(err)
-			console.log(err?.response?.data?.message);
+			if (
+				err.code === "ERR_NETWORK" &&
+				err.request.timeout === 0
+			) {
+				ErrorAlert(err).fire({
+					titleText: "A network error has occurred",
+					text: "Please check your network and try reloading the page again.",
+				});
+				return;
+			}
+			ErrorAlert(err).fire()
 		}
 	};
 
-	useEffect(() => {}, []);
-
 	return (
-		<div className='h-screen overflow-y-auto grid items-center justify-center'>
-			<div className='w-[90vw] xs:w-96 p-4 bg-white xs:border border-gray-200 xs:rounded-lg xs:shadow-md sm:p-6 md:p-8'>
+		<div className='h-screen w-screen bg-neutral-50 overflow-y-auto grid items-center justify-center'>
+			<div className='w-[90vw] xs:w-96 p-4 xs:bg-white xs:border border-gray-200 xs:rounded-lg xs:shadow-md sm:p-6 md:p-8'>
 				<form
 					className='space-y-6 w-full'
 					onSubmit={(e) => e.preventDefault()}

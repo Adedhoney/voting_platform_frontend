@@ -1,4 +1,3 @@
-import React from "react";
 import { useDataContext } from "../context/DataContext";
 
 const Candidate = ({
@@ -14,16 +13,20 @@ const Candidate = ({
 	candidate_level: string;
 	candidate_id: string;
 	picture: string | null;
-	onVoteClick: (candidate_id: string) => void;
+	onVoteClick: (candidate_id: string, isSame: boolean) => void;
 }) => {
 	const { vote, posts, position } = useDataContext();
 	const current_post = posts[position].position_id;
 	const isSelected = vote[current_post] === candidate_id;
 
 	return (
-		<div className={`relative w-full max-w-sm ${isSelected ? 'bg-orange-100' : 'bg-white'} border border-gray-200 rounded-lg shadow-md`}>
+		<div
+			className={`transform duration-300 relative w-full max-w-sm ${
+				isSelected ? "bg-[#F5F9E5]" : "bg-white"
+			} border border-gray-200 rounded-lg shadow-md`}
+		>
 			<div
-				className={`absolute top-4 right-4 text-orange-600 ${
+				className={`absolute top-4 right-4 text-gray-600 ${
 					isSelected ? "" : "hidden"
 				}`}
 			>
@@ -62,16 +65,17 @@ const Candidate = ({
 				<span className='text-sm text-light-text-muted'>
 					{candidate_level + " "}level
 				</span>
-				<div className='mt-4 grid grid-col'>
+				<div className={`${isSelected ? 'invisible' : 'visible'} mt-4 grid grid-col transform duration-75`}>
 					<button
 						className={`inline-flex items-center px-4 py-2 text-sm font-medium text-center text-light-text-primary bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 tracking-widest`}
 						onClick={() => {
 							onVoteClick(
-								candidate_id
+								candidate_id,
+								isSelected
 							);
 						}}
 					>
-						{isSelected ? "SELECTED" : "VOTE"}
+						Vote
 					</button>
 				</div>
 			</div>

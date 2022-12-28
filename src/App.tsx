@@ -1,10 +1,11 @@
-import { useState } from "react";
 import { Route, Routes } from "react-router";
-import { Vote } from "./pages/Vote";
-import { Login } from "./pages/Login";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { DataProvider } from "./context/DataContext";
 import { Confirmation } from "./pages/Confirmation";
+import { Error } from "./pages/Error";
+import { Login } from "./pages/Login";
+import { Success } from "./pages/Success";
+import { Vote } from "./pages/Vote";
 
 function App() {
 	return (
@@ -26,9 +27,17 @@ function App() {
 						</DataProvider>
 					}
 				/>
+				<Route
+					path='success'
+					element={
+						<DataProvider>
+							<Success />
+						</DataProvider>
+					}
+				/>
 			</Route>
 			<Route path='/login' element={<Login />} />
-			<Route path='*' element={<div>Error</div>} />
+			<Route path='*' element={<Error />} />
 		</Routes>
 	);
 }
