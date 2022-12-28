@@ -33,7 +33,7 @@
 
 }
 
-.swal2-confirm.swal2-styled {
+/* .swal2-confirm.swal2-styled {
   border: 1px solid transparent;
   @apply text-black rounded-xl border border-gray-400;
 }
@@ -48,7 +48,7 @@
 
 .swal2-styled.swal2-default-outline:focus {
   @apply shadow-none;
-}
+} */
 
 .lds-ring {
   display: inline-block;
