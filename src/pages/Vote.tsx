@@ -5,49 +5,13 @@ import { useNavigate } from "react-router-dom";
 
 export const Vote = () => {
 	const navigate = useNavigate();
-	const { vote, posts, position, changePositions, candidates, setVote } =
+	const { posts, position, changePositions, candidates, setVote } =
 		useDataContext();
 
-	const onVoteClick = (candidate_id: string, isSame: boolean) => {
+	const onVoteClick = (candidate_id: string) => {
 		const currentPost = posts[position].position_id;
-		if (
-			vote[currentPost] &&
-			vote[currentPost] === candidate_id &&
-			isSame
-		) {
-			setVote((prev) => {
-				const newCopy = Object.keys(prev).reduce(
-					(
-						object: {
-							[key: string]: string;
-						},
-						key: string
-					) => {
-						if (
-							object[key] !==
-							candidate_id
-						) {
-							object[key] = prev[key];
-						}
-						return object;
-					},
-					{}
-				);
-				return newCopy;
-			});
-			alert("Did not work");
-			return;
-		}
 		setVote((prev) => {
 			return { ...prev, [currentPost]: candidate_id };
-		});
-	};
-
-	const onVoteUnClick = (candidate_id: string) => {
-		setVote((prev) => {
-			const newCopy = prev;
-			delete newCopy[candidate_id];
-			return newCopy;
 		});
 	};
 

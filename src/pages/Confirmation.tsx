@@ -77,7 +77,7 @@ export const Confirmation = () => {
 				postBody,
 				config
 			);
-
+			
 			SuccessAlert.fire("You have voted successfully");
 			navigate('/success')
 		} catch (error) {
