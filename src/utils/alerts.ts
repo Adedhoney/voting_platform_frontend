@@ -2,12 +2,12 @@ import { AxiosError } from "axios";
 import Swal from "sweetalert2";
 
 const myCustomClass = {
-	popup: "rounded-lg",
+	popup: "rounded-lg bg-neutral-50",
 	confirmButton:
 		"py-1 px-2 border bg-white shadow-sm rounded-md text-lg transform focus:scale-95 hover:bg-neutral-200 hover:text-light-text-primary font-bold hover:outline-2",
 	cancelButton:
 		"py-1 px-2 border bg-red-900 text-white shadow-sm rounded-md text-lg transform focus:scale-95 hover:bg-neutral-200 hover:text-light-text-primary font-bold hover:outline-2",
-	actions: "space-x-1"
+	actions: "space-x-1",
 };
 
 export const WarningAlert = Swal.mixin({
@@ -46,5 +46,9 @@ export const ErrorAlert = (err: AxiosError) =>
 		titleText: (err?.response?.data as { message: string })
 			?.message,
 		buttonsStyling: false,
-		customClass: { ...myCustomClass },
+		customClass: {
+			...myCustomClass,
+			confirmButton:
+				"py-2.5 px-6 border bg-white shadow-sm rounded-md text-lg transform focus:scale-95 hover:bg-neutral-100 hover:text-light-text-primary font-bold hover:outline-2 tracking-wider",
+		},
 	});
