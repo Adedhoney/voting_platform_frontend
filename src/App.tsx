@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import { ProtectedRoute } from "./components/ProtectedRoute";
+import { HasVotedRoute, NotLoggedIn, ProtectedRoute } from "./components/ProtectedRoute";
 import { DataProvider } from "./context/DataContext";
 import { Confirmation } from "./pages/Confirmation";
 import { Error } from "./pages/Error";
@@ -15,7 +15,9 @@ function App() {
 					index
 					element={
 						<DataProvider>
-							<Vote />
+							<HasVotedRoute>
+								<Vote />
+							</HasVotedRoute>
 						</DataProvider>
 					}
 				/>
@@ -23,7 +25,9 @@ function App() {
 					path='confirmation'
 					element={
 						<DataProvider>
-							<Confirmation />
+							<HasVotedRoute>
+								<Confirmation />
+							</HasVotedRoute>
 						</DataProvider>
 					}
 				/>
@@ -36,7 +40,14 @@ function App() {
 					}
 				/>
 			</Route>
-			<Route path='/login' element={<Login />} />
+			<Route
+				path='/login'
+				element={
+					<NotLoggedIn>
+						<Login />
+					</NotLoggedIn>
+				}
+			/>
 			<Route path='*' element={<Error />} />
 		</Routes>
 	);

@@ -103,11 +103,7 @@ export const DataProvider = ({ children }: any) => {
 				navigate("/login");
 				return;
 			}
-			if (
-				err.response?.status === 401 ||
-				err.response?.status === 402 ||
-				err.response?.status === 403
-			) {
+			if (err.response?.status === 401) {
 				ErrorAlert(err).fire();
 				localStorage.removeItem("token");
 				navigate("/login");

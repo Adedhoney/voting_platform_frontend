@@ -13,7 +13,7 @@ const Candidate = ({
 	candidate_level: string;
 	candidate_id: string;
 	picture: string | null;
-	onVoteClick: (candidate_id: string, isSame: boolean) => void;
+	onVoteClick: (candidate_id: string) => void;
 }) => {
 	const { vote, posts, position } = useDataContext();
 	const current_post = posts[position].position_id;
@@ -51,7 +51,7 @@ const Candidate = ({
 					src={
 						picture?.startsWith("http")
 							? picture
-							: "/pfp.svg"
+							: "/assets/pfp.svg"
 					}
 					alt='profile'
 				/>
@@ -65,13 +65,18 @@ const Candidate = ({
 				<span className='text-sm text-light-text-muted'>
 					{candidate_level + " "}level
 				</span>
-				<div className={`${isSelected ? 'invisible' : 'visible'} mt-4 grid grid-col transform duration-75`}>
+				<div
+					className={`${
+						isSelected
+							? "invisible"
+							: "visible"
+					} mt-4 grid grid-col transform duration-75`}
+				>
 					<button
 						className={`inline-flex items-center px-4 py-2 text-sm font-medium text-center text-light-text-primary bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 tracking-widest`}
 						onClick={() => {
 							onVoteClick(
-								candidate_id,
-								isSelected
+								candidate_id
 							);
 						}}
 					>

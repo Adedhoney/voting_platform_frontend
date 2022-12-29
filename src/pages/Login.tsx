@@ -48,7 +48,7 @@ export const Login = () => {
 	};
 
 	return (
-		<div className='h-screen w-screen bg-neutral-50 overflow-y-auto grid items-center justify-center'>
+		<div className='h-full w-full bg-neutral-50 overflow-y-auto grid items-center justify-center'>
 			<div className='w-[90vw] xs:w-96 p-4 xs:bg-white xs:border border-gray-200 xs:rounded-lg xs:shadow-md sm:p-6 md:p-8'>
 				<form
 					className='space-y-6 w-full'
@@ -57,7 +57,7 @@ export const Login = () => {
 					<div>
 						<img
 							className='h-16 w-16 mx-auto'
-							src='/TESA_logo_white.jpeg'
+							src='/assets/TESA_logo_white.jpeg'
 						/>
 					</div>
 					<h5 className='text-xl font-medium text-light-text-primary'>

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 export function Header({ }) {
 	const navigate = useNavigate()
 	const { user } = useDataContext();
+	const username = user?.user_name ? user.user_name : ""
 
 	const logout = () => {
 		localStorage.removeItem('token');
@@ -14,9 +15,9 @@ export function Header({ }) {
 		<div className='w-full h-16 flex md:pr-10'>
 			<div className='flex flex-col gap-0.5 my-auto ml-auto mr-4 w-fit justify-end items-center'>
 				<h3 className='md:text-lg'>
-					Welcome,{" "}
+					Welcome{user?.user_name && ', '}
 					<span className='font-semibold'>
-						{user.user_name}
+						{username}
 					</span>
 				</h3>
 				<button className='inline-flex items-center gap-1 justify-center text-neutral-700 self-end font-semibold underline hover:opacity-70' onClick={logout}>

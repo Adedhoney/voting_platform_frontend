@@ -32,9 +32,6 @@ export const Confirmation = () => {
 			titleText: "Are you sure you want to reset your vote?",
 			text: "All of your votes will be cleared, you can reselect them again.",
 			confirmButtonText: "Yes, reset my vote",
-			customClass: {
-				title: "text-light-text-primary",
-			},
 		});
 
 		if (response.isConfirmed) {
@@ -47,9 +44,6 @@ export const Confirmation = () => {
 			titleText: "Are you sure you want to submit your vote?",
 			text: "You cannot change it later!",
 			confirmButtonText: "Yes, submit my vote",
-			customClass: {
-				title: "text-light-text-primary",
-			},
 		});
 
 		if (result.isConfirmed) {
@@ -83,9 +77,9 @@ export const Confirmation = () => {
 				postBody,
 				config
 			);
-
+			
 			SuccessAlert.fire("You have voted successfully");
-			// navigate('/')
+			navigate('/success')
 		} catch (error) {
 			const err = error as AxiosError;
 			ErrorAlert(err).fire();
