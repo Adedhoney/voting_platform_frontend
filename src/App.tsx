@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import { HasVotedRoute, ProtectedRoute } from "./components/ProtectedRoute";
+import { HasVotedRoute, NotLoggedIn, ProtectedRoute } from "./components/ProtectedRoute";
 import { DataProvider } from "./context/DataContext";
 import { Confirmation } from "./pages/Confirmation";
 import { Error } from "./pages/Error";
@@ -40,7 +40,14 @@ function App() {
 					}
 				/>
 			</Route>
-			<Route path='/login' element={<Login />} />
+			<Route
+				path='/login'
+				element={
+					<NotLoggedIn>
+						<Login />
+					</NotLoggedIn>
+				}
+			/>
 			<Route path='*' element={<Error />} />
 		</Routes>
 	);
