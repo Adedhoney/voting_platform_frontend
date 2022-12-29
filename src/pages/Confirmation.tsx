@@ -79,7 +79,7 @@ export const Confirmation = () => {
 			);
 
 			SuccessAlert.fire("You have voted successfully");
-			// navigate('/')
+			navigate('/success')
 		} catch (error) {
 			const err = error as AxiosError;
 			ErrorAlert(err).fire();

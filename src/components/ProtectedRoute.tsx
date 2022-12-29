@@ -23,6 +23,7 @@ export const HasVotedRoute = ({
 	children?: React.ReactElement;
 }) => {
 	const { user } = useDataContext();
-	if (user?.vote_status) return <Navigate to={redirectPath} replace />;
+	const hasnotvoted = true;
+	// if (user?.vote_status) return <Navigate to={redirectPath} replace />;
 	return children ? children : <Outlet />;
 };
