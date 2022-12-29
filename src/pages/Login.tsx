@@ -57,7 +57,7 @@ export const Login = () => {
 					<div>
 						<img
 							className='h-16 w-16 mx-auto'
-							src='/TESA_logo_white.jpeg'
+							src='/assets/TESA_logo_white.jpeg'
 						/>
 					</div>
 					<h5 className='text-xl font-medium text-light-text-primary'>

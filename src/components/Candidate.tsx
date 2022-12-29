@@ -51,7 +51,7 @@ const Candidate = ({
 					src={
 						picture?.startsWith("http")
 							? picture
-							: "/pfp.svg"
+							: "/assets/pfp.svg"
 					}
 					alt='profile'
 				/>
