@@ -4,5 +4,5 @@ export const instance = axios.create({
     headers: {
         "Content-Type": "application/json",
     },
-    baseURL: "https://voting-platform-backend-mnjhw.ondigitalocean.app/user/",
+    baseURL: "https://voting-backend-jc4h2.ondigitalocean.app/user/",
 })
