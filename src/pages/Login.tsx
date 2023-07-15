@@ -7,10 +7,10 @@ import { instance } from "../utils/axios_instance"
 export const Login = () => {
     const navigate = useNavigate()
     const [authInfo, useAuthInfo] = useState<{
-        matricNO: number
+        matricNO: string
         password: string
     }>({
-        matricNO: 0,
+        matricNO: "",
         password: "",
     })
 
@@ -65,7 +65,7 @@ export const Login = () => {
                             Your Username
                         </label>
                         <input
-                            type="number"
+                            type="text"
                             name="matric_no"
                             id="matric_no"
                             className="bg-gray-50 border border-light-separator text-light-text-primary text-base rounded-lg focus:ring-light-main-secondary focus:border-light-main-secondary block w-full p-2.5 placeholder:tracking-wider"
@@ -74,7 +74,7 @@ export const Login = () => {
                             onChange={(e) => {
                                 useAuthInfo((prev) => ({
                                     ...prev,
-                                    matricNO: +e.target.value,
+                                    matricNO: e.target.value,
                                 }))
                             }}
                         />
