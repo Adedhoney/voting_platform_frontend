@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Vote = () => {
   const navigate = useNavigate();
-  const { posts, position, changePositions, candidates, setVote } =
+  const { posts, position, changePositions, candidates, setVote, vote } =
     useDataContext();
 
   const onVoteClick = (candidate_id: string) => {
@@ -60,7 +60,8 @@ export const Vote = () => {
           onClick={() => {
             if (position >= posts.length - 1) {
               // Check if a candidate is selected for each position before navigating
-              if (Object.keys(setVote).length !== posts.length) {
+              //   console.log(Object.keys(vote));
+              if (Object.keys(vote).length !== posts.length) {
                 alert(
                   "Please select a candidate for each position before proceeding."
                 );
